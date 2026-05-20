@@ -13,7 +13,11 @@ def create_inventory(items):
     Returns:
         Un diccionario con cada item y su cantidad
     """
-    pass  # Reemplazar con tu implementación
+    inventario = {}
+    for elemento in items:
+        cantidad = items.count(elemento)
+        inventario[elemento] = cantidad
+    return inventario
 
 
 def add_items(inventario, items):
@@ -29,7 +33,12 @@ def add_items(inventario, items):
     Returns:
         El inventario actualizado
     """
-    pass  # Reemplazar con tu implementación
+    for elemento in items:
+        if elemento in inventario:
+            inventario[elemento] += 1
+        else:
+            inventario[elemento] = 1
+    return inventario
 
 
 def decrement_items(inventario, items):
@@ -46,8 +55,17 @@ def decrement_items(inventario, items):
     Returns:
         El inventario actualizado (sin valores negativos)
     """
-    pass  # Reemplazar con tu implementación
-
+    for elemento in items:
+        if elemento in inventario:
+            # Restar solo si hay stock
+            if inventario[elemento] > 0:
+                inventario[elemento] -= 1
+        else:
+            # Si el item no existe en inventario, se ignora o se inicializa en 0
+            inventario[elemento] = 0
+            if inventario[elemento] == 0:
+                del inventario[elemento]
+    return inventario
 
 def remove_item(inventario, item):
     """
@@ -61,7 +79,9 @@ def remove_item(inventario, item):
     Returns:
         El inventario actualizado (o sin cambios si el item no existe)
     """
-    pass  # Reemplazar con tu implementación
+    if item in inventario:
+        del inventario[item]
+    return inventario
 
 
 def list_inventory(inventario):
@@ -75,7 +95,15 @@ def list_inventory(inventario):
     Returns:
         Lista de tuplas (item, cantidad) con cantidad > 0
     """
-    pass  # Reemplazar con tu implementación
+    lista_de_tuplas = []
+    for elemento, cantidad in inventario.items():
+        if cantidad > 0:
+            tupla_individual = []
+            tupla_individual.append(elemento)
+            tupla_individual.append(cantidad)
+            lista_de_tuplas.append(tuple(tupla_individual))
+
+    return lista_de_tuplas
 
 
 def find_max_value(diccionario):
@@ -83,17 +111,10 @@ def find_max_value(diccionario):
     Recibe un diccionario de nombres y puntajes, y retorna la clave
     (nombre) con el valor (puntaje) más alto. Si el diccionario está
     vacío, retorna "".
-
-    Args:
-        diccionario: Diccionario {nombre: puntaje}
-
-    Returns:
-        String con la clave de mayor valor, o "" si el dict está vacío
-
-    Ejemplo:
-        find_max_value({'John': 85, 'Emma': 92, 'Sophia': 78}) -> 'Emma'
     """
-    pass  # Reemplazar con tu implementación
+    if not diccionario:
+        return ""
+    return max(diccionario, key=diccionario.get)
 
 
 def reverse_dict(diccionario):
@@ -107,12 +128,19 @@ def reverse_dict(diccionario):
 
     Returns:
         Nuevo diccionario invertido
-
-    Ejemplo:
-        reverse_dict({'a': 1, 'b': 2, 'c': 3, 'd': 3, 'e': 2})
-        -> {1: 'a', 2: 'be', 3: 'cd'}
     """
-    pass  # Reemplazar con tu implementación
+    diccionario_invertido = {}
+    lista_valores = []
+    for clave in diccionario:
+        valor = diccionario[clave]
+        lista_valores.append(valor)
+        apariciones_de_valor = lista_valores.count(valor)
+        if apariciones_de_valor > 1:
+            diccionario_invertido[valor] += clave
+        else:
+            diccionario_invertido[valor] = clave
+
+    return diccionario_invertido
 
 
 def word_frequency(palabras):
@@ -122,7 +150,7 @@ def word_frequency(palabras):
 
     Args:
         palabras: Lista de palabras (strings). También debe soportar
-                  un string vacío retornando un diccionario vacío.
+                      un string vacío retornando un diccionario vacío.
 
     Returns:
         Diccionario con la frecuencia de cada palabra
@@ -131,7 +159,15 @@ def word_frequency(palabras):
         word_frequency(["apple", "banana", "apple", "orange", "banana", "apple"])
         -> {'apple': 3, 'banana': 2, 'orange': 1}
     """
-    pass  # Reemplazar con tu implementación
+    diccionario_frecuencia_palabras = {}
+    for palabra in palabras:
+        apariciones = palabras.count(palabra)
+        if apariciones == 0:
+            return {}
+        else:
+            diccionario_frecuencia_palabras[palabra] = apariciones
+
+    return diccionario_frecuencia_palabras
 
 
 def find_biggest_expense(gastos):
@@ -151,7 +187,19 @@ def find_biggest_expense(gastos):
                               'Transport': [10, 1, 2],
                               'Games': [10, 20, 30]}) -> 'Food'
     """
-    pass  # Reemplazar con tu implementación
+    categoria_mayor = ""
+    mayor_promedio = 0
+    if len(gastos) > 0:
+        for categoria, lista_gastos in gastos.items():
+            suma = sum(lista_gastos)
+            cantidad = len(categoria)
+            promedio = suma / cantidad
+
+            if promedio > mayor_promedio:
+                mayor_promedio = promedio
+                categoria_mayor = categoria
+
+    return categoria_mayor
 
 
 def sum_expenses(gastos):
@@ -171,7 +219,10 @@ def sum_expenses(gastos):
                       'Games': [10, 20, 30]})
         -> {'Food': 240, 'Transport': 13, 'Games': 60}
     """
-    pass  # Reemplazar con tu implementación
+    totales = {}
+    for categoria, lista in gastos.items():
+        totales[categoria] = sum(lista)
+    return totales
 
 
 def sum_expenses_by_type(gastos):
@@ -194,4 +245,8 @@ def sum_expenses_by_type(gastos):
         })
         -> {'A': 96, 'B': 174, 'C': 104}
     """
-    pass  # Reemplazar con tu implementación
+    totales = {}
+    for categoria, lista in gastos.items():
+        for tipo, monto in lista:
+            totales[tipo] = totales.get(tipo, 0) + monto
+    return totales

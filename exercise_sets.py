@@ -8,6 +8,8 @@ ALCOHOLS = {
 }
 
 
+
+
 def clean_ingredients(nombre_plato, ingredientes):
     """
     Elimina los ingredientes duplicados de una receta.
@@ -19,7 +21,11 @@ def clean_ingredients(nombre_plato, ingredientes):
     Returns:
         Una tupla (nombre_plato, set_de_ingredientes_sin_duplicados)
     """
-    pass  # Reemplazar con tu implementación
+    for ingrediente in ingredientes:
+        conteo = ingredientes.count(ingrediente)
+        if conteo > 1:
+            ingredientes.remove(ingrediente)
+    return (nombre_plato, set(ingredientes))
 
 
 def check_drinks(nombre_bebida, ingredientes):
@@ -36,7 +42,12 @@ def check_drinks(nombre_bebida, ingredientes):
     Returns:
         String con el nombre de la bebida seguido de "Cocktail" o "Mocktail"
     """
-    pass  # Reemplazar con tu implementación
+    tipo = "Mocktail"
+    for ingrediente in ingredientes:
+        if ingrediente in ALCOHOLS:
+            tipo = "Cocktail"
+            return f"{nombre_bebida} {tipo}"
+    return f"{nombre_bebida} {tipo}"
 
 
 def unique_chars(texto):
@@ -52,7 +63,10 @@ def unique_chars(texto):
     Ejemplo:
         unique_chars("hello") -> {'h', 'e', 'l', 'o'}
     """
-    pass  # Reemplazar con tu implementación
+    for elemento in texto:
+        if texto.count(elemento) > 2:
+            texto.replace(elemento, "")
+    return set(texto)
 
 
 def sum_set(numeros):
@@ -73,7 +87,10 @@ def sum_set(numeros):
         sum_set({1, 2, 3, 4}) -> 10
         sum_set(set()) -> 0
     """
-    pass  # Reemplazar con tu implementación
+    suma = 0
+    for numero in numeros:
+        suma += numero
+    return suma
 
 
 def common_elements(set_a, set_b):
@@ -95,4 +112,28 @@ def common_elements(set_a, set_b):
         common_elements({1, 2, 3}, {2, 3, 4}) -> {2, 3}
         common_elements({1, 2}, {3, 4}) -> set()
     """
-    pass  # Reemplazar con tu implementación
+
+def common_elements(set_a, set_b):
+    """
+    Retorna un nuevo set con los elementos que aparecen en AMBOS sets.
+
+    No se permite usar el operador & ni el método .intersection().
+    Implementar la intersección recorriendo uno de los sets y
+    verificando pertenencia en el otro.
+
+    Args:
+        set_a: Primer set
+        set_b: Segundo set
+
+    Returns:
+        Set con los elementos presentes en ambos
+
+    Ejemplo:
+        common_elements({1, 2, 3}, {2, 3, 4}) -> {2, 3}
+        common_elements({1, 2}, {3, 4}) -> set()
+    """
+    lista_elementos_compartidos = []
+    for elemento in set_a:
+        if elemento in set_b:
+            lista_elementos_compartidos.append(elemento)
+    return set(lista_elementos_compartidos)
